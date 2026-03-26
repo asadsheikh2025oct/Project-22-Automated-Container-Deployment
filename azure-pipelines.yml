@@ -11,7 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'f8da65de-9508-4fde-9af9-0e8b9ec041bc'
-  imageRepository: 'buildrepositoryname'
+  imageRepository: 'my-web-app-images-repo'
   containerRegistry: 'myacrregistry20260326.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -41,4 +41,4 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(f2f1d6df-9422-48cb-abf1-0a4eb095ad4a)'
         appName: 'myappname20260326'
-        containers: 'myacrregistry20260326.azurecr.io/$(Build.Repository.Name):$(Build.BuildId)'
+        containers: '$(imageRepository)'
