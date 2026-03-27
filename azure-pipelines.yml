@@ -11,7 +11,7 @@ resources:
 variables:
   # azure subscription: 'f8da65de-9508-4fde-9af9-0e8b9ec041bc'
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'acr-connection'
+  dockerRegistryServiceConnection: 'f8da65de-9508-4fde-9af9-0e8b9ec041bc'
   imageRepository: 'my-web-app-images-repo'
   containerRegistry: 'myacrregistry20260326.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
@@ -32,14 +32,13 @@ stages:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        containerRegistry: 'myacrregistry20260326'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
     - task: AzureWebAppContainer@1
       inputs:
         azureSubscription: 'Azure subscription 1(f2f1d6df-9422-48cb-abf1-0a4eb095ad4a)'
         appName: 'myappname20260326'
-        containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+        containers: 'myacrregistry20260326.azurecr.io/my-web-app-images-repo:$(tag)'
